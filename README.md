@@ -57,7 +57,7 @@ The bridge is divided into two independent clock domains:
 
 ---
 
-<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/28dbfeb5-fe9c-4b96-aaef-491fe65ac562" />
+<img width="1671" height="941" alt="Image" src="https://github.com/user-attachments/assets/fa2e73a1-fa1c-454a-b922-7949e331a165" />
 
 ---
 
@@ -110,7 +110,7 @@ The FSM supports:
 - Error Capture
 - Continuous FIFO Processing
 
-<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/261b753e-a46d-4ad1-8b3a-0a993200c40c" />
+<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/02c27ea9-0b79-46df-8c18-7b59475a4401" />
 
 ---
 
@@ -151,7 +151,7 @@ The Response Synchronizer safely transfers APB responses back to the AHB clock d
 
 The handshake mechanism guarantees that every APB read response is transferred exactly once without data corruption.
 
-<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/6bd4493c-183e-4ca2-b6ad-063fe8992175" />
+<img width="3847" height="2079" alt="Image" src="https://github.com/user-attachments/assets/347b38a4-b670-464a-a3ae-9649229e1fe7" />
 
 ---
 
