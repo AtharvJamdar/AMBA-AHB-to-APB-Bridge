@@ -57,7 +57,7 @@ The bridge is divided into two independent clock domains:
 
 ---
 
-<img width="1671" height="941" alt="Image" src="https://github.com/user-attachments/assets/fa2e73a1-fa1c-454a-b922-7949e331a165" />
+<img width="1672" height="941" alt="Image" src="https://github.com/user-attachments/assets/f68bf361-43f7-466f-87ad-a4d4b3704591" />
 
 ---
 
@@ -87,6 +87,46 @@ The bridge supports both **AHB Write** and **AHB Read** transactions.
 
 ---
 
+# 🔷 AHB Interface
+
+The AHB Interface acts as a slave interface that captures AHB read and write transactions, transfers requests to the Asynchronous FIFO, and returns synchronized responses to the AHB Master.
+
+### Key Responsibilities
+
+- AHB Address Phase Detection
+- Read and Write Transaction Acceptance
+- Write Data Phase Handling using `write_pending`
+- Transaction Packet Generation
+- Asynchronous FIFO Interface
+- Read Response Handling
+- HREADYOUT and HRESP Generation
+- Two-Cycle AHB Error Response Handling
+
+<img width="1717" height="916" alt="Image" src="https://github.com/user-attachments/assets/545855d9-59a2-410f-9bca-940921a688a3" />
+
+---
+
+# 📦 Asynchronous FIFO (CDC Buffer)
+
+The Asynchronous FIFO safely transfers transactions between the **HCLK** and **PCLK** domains.
+
+### Features
+
+- Dual Clock FIFO
+- Independent Read/Write Clocks
+- Gray Code Pointer Synchronization
+- Binary Pointer Management
+- Full Detection Logic
+- Empty Detection Logic
+- Two-Flip-Flop Synchronizers
+- Safe Clock Domain Crossing
+
+The FIFO eliminates metastability by synchronizing Gray-coded pointers between clock domains.
+
+<img width="1668" height="943" alt="Image" src="https://github.com/user-attachments/assets/dc58cb07-4356-4efd-9f91-99e80cbe31d7" />
+
+---
+
 # ⚙️ APB Controller FSM
 
 The APB Controller controls every APB transaction using a Finite State Machine.
@@ -111,27 +151,6 @@ The FSM supports:
 - Continuous FIFO Processing
 
 <img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/02c27ea9-0b79-46df-8c18-7b59475a4401" />
-
----
-
-# 📦 Asynchronous FIFO (CDC Buffer)
-
-The Asynchronous FIFO safely transfers transactions between the **HCLK** and **PCLK** domains.
-
-### Features
-
-- Dual Clock FIFO
-- Independent Read/Write Clocks
-- Gray Code Pointer Synchronization
-- Binary Pointer Management
-- Full Detection Logic
-- Empty Detection Logic
-- Two-Flip-Flop Synchronizers
-- Safe Clock Domain Crossing
-
-The FIFO eliminates metastability by synchronizing Gray-coded pointers between clock domains.
-
-<img width="1672" height="941" alt="Image" src="https://github.com/user-attachments/assets/4de8d002-d972-4993-b555-289444cbbe0c" />
 
 ---
 
@@ -167,52 +186,6 @@ The bridge is implemented using a modular RTL architecture. Each module performs
 | **apb_controller.sv** | Implements the APB controller FSM that reads transactions from the FIFO and generates APB protocol signals. |
 | **response_synchronizer.sv** | Safely transfers read data, response status, and valid indication from the APB clock domain back to the AHB clock domain. |
 | **ahb_apb_top.sv** | Top-level module integrating all RTL blocks into a complete AHB-to-APB bridge. |
-
----
-
-# 🔍 UVM Verification Environment
-
-The bridge is verified using a reusable **Universal Verification Methodology (UVM)** testbench designed to validate protocol compliance, functional correctness, and corner-case behavior.
-
-### Verification Components
-
-- Test
-- Environment (env)
-- AHB Agent
-- APB Agent
-- Driver
-- Monitor
-- Sequencer
-- Sequences
-- Scoreboard
-- Functional Coverage
-- Interface
-- Top-Level Testbench
-
-### Verification Flow
-
-```text
-                Test
-                  │
-                  ▼
-          UVM Environment
-                  │
-     ┌────────────┴────────────┐
-     │                         │
-     ▼                         ▼
- AHB Agent                 APB Agent
-     │                         │
-     ▼                         ▼
- Driver                     Monitor
-     │                         │
-     └────────────┬────────────┘
-                  ▼
-             DUT (RTL)
-                  │
-         ┌────────┴────────┐
-         ▼                 ▼
-   Scoreboard        Functional Coverage
-```
 
 ---
 
@@ -264,43 +237,5 @@ Simulation waveforms are available in the **simulation/waveforms/** directory.
 | Siemens QuestaSim | Simulation & Waveform Analysis |
 | Git | Version Control |
 | GitHub | Repository Management |
-
----
-
-# 🚀 How to Run
-
-Compile the RTL and UVM environment using your simulator.
-
-Example QuestaSim flow:
-
-```tcl
-vlib work
-
-vlog RTL/*.sv
-
-vlog UVM/**/*.sv
-
-vsim tb_top
-
-run -all
-```
-
-After simulation, inspect the generated waveform and verify protocol correctness.
-
----
-
-# 📈 Future Improvements
-
-The current implementation provides a robust CDC-enabled bridge architecture. Future enhancements may include:
-
-- Support for Multiple APB Slaves
-- Address Decoder for Peripheral Selection
-- Burst Transfer Support
-- APB4 Protocol Extensions
-- Enhanced Functional Coverage
-- Assertion-Based Verification (SVA)
-- Formal Verification
-- Performance Optimization
-- FPGA Prototyping
 
 ---
