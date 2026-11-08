@@ -1,4 +1,4 @@
-# Design and UVM-Based Verification of AMBA AHB-to-APB Bridge with Clock Domain Crossing (CDC)
+# AMBA AHB-to-APB Bridge with Clock Domain Crossing (CDC)
 
 A high-performance **AMBA AHB-to-APB Bridge** designed in **SystemVerilog** with support for **Clock Domain Crossing (CDC)** using an **Asynchronous FIFO**, and verified using a **Universal Verification Methodology (UVM)** based testbench.
 
